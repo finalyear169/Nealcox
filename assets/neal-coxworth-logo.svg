@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 210 500 470" role="img" aria-labelledby="title desc">
+  <title id="title">Neal Coxworth logo</title>
+  <desc id="desc">Red intertwined N and C monogram in a circular white mark.</desc>
+  <circle cx="370" cy="445" r="235" fill="#ffffff" />
+  <g fill="#ef1018" font-family="Bodoni 72, Didot, Georgia, Times New Roman, serif" font-weight="400">
+    <text x="180" y="560" font-size="390">N</text>
+    <text x="335" y="637" font-size="390">C</text>
+  </g>
+</svg>

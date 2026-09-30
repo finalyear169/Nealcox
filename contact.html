@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Contact Neal Coxworth for bookings, collaborations, media enquiries, and creative opportunities."
+    />
+    <title>Neal Coxworth</title>
+    <link rel="icon" type="image/svg+xml" href="assets/neal-coxworth-logo.svg" />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body data-page="contact">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Shared navigation markup is duplicated across pages; keep its links aligned. -->
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html" aria-label="Neal Coxworth home page">
+          <img class="brand-mark" src="assets/neal-coxworth-logo.svg" alt="" />
+          <span>Neal Coxworth</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+            <span aria-hidden="true"></span>
+          </button>
+
+          <div id="primary-nav" class="nav-menu">
+            <a class="nav-link" href="index.html" data-page="home">Home</a>
+            <a class="nav-link" href="about.html" data-page="about">About</a>
+            <a class="nav-link" href="music.html" data-page="music">Music</a>
+            <a class="nav-link" href="contact.html" data-page="contact">Contact</a>
+          </div>
+        </nav>
+      </div>
+      <div class="music-flow" aria-hidden="true">
+        <div class="music-flow__track">
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="section page-hero">
+        <div class="container page-hero-copy">
+          <p class="eyebrow">Contact</p>
+          <h1>For bookings and collaborations</h1>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container contact-layout">
+          <aside class="contact-card">
+            <p class="eyebrow">Connect</p>
+            <h3>Direct contact</h3>
+            <ul class="contact-list">
+              <li>
+                <span>Email</span>
+                <a href="mailto:silverstreakmedia@gmail.com">silverstreakmedia@gmail.com</a>
+              </li>
+              <li>
+                <span>Instagram</span>
+                <a href="https://www.instagram.com/neal_coxworth/" target="_blank" rel="noreferrer">@nealcoxworth</a>
+              </li>
+              <li>
+                <span>Facebook</span>
+                <a href="https://www.facebook.com/nealcoxworthmusic/#" target="_blank" rel="noreferrer">@nealcoxworthmusic</a>
+              </li>
+            </ul>
+          </aside>
+
+          <div class="form-panel">
+            <!-- FormSubmit handles delivery; update the action when changing the destination inbox. -->
+            <form class="contact-form" action="https://formsubmit.co/silverstreakmedia@gmail.com" method="POST" aria-label="Contact Neal Coxworth">
+              <input type="hidden" name="_subject" value="New inquiry from Neal Coxworth website" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="_replyto" type="email" autocomplete="email" required />
+              </div>
+
+              <div class="field">
+                <label for="event-type">Event type</label>
+                <input id="event-type" name="event_type" type="text" placeholder="Concert, private event, collaboration..." required />
+              </div>
+
+              <div class="field event-date-field">
+                <label for="event-date">Event date</label>
+                <div class="date-input-wrap">
+                  <input id="event-date" name="event_date" type="date" required />
+                  <button class="date-picker-button" type="button" aria-label="Open event date picker">
+                    <span aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="location">Location</label>
+                <input id="location" name="location" type="text" autocomplete="street-address" required />
+              </div>
+
+              <div class="field">
+                <label for="budget">Budget</label>
+                <input id="budget" name="budget" type="text" placeholder="e.g. $1,500" required />
+              </div>
+
+              <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+              </div>
+
+              <button class="button button-primary" type="submit">Send inquiry</button>
+              <p class="form-status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared footer markup is duplicated across pages; keep social links aligned. -->
+    <footer class="site-footer">
+      <div class="container">
+        <div>
+          <a class="brand" href="index.html" aria-label="Neal Coxworth home page">
+            <img class="brand-mark" src="assets/neal-coxworth-logo.svg" alt="" />
+            <span>Neal Coxworth</span>
+          </a>
+        </div>
+
+        <div class="footer-links" aria-label="Social links">
+          <a href="https://soundcloud.com/anthony-neal-541671036" target="_blank" rel="noreferrer">Soundcloud</a>
+          <a href="https://www.youtube.com/@NealCoxworthmusic" target="_blank" rel="noreferrer">Youtube</a>
+          <a href="https://www.facebook.com/nealcoxworthmusic/#" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="https://www.instagram.com/neal_coxworth/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://open.spotify.com/artist/61lR58BBUwx0pgY3PwmAyM" target="_blank" rel="noreferrer">Spotify</a>
+          <a href="https://music.apple.com/us/album/sons-and-daughters-single/1853195804" target="_blank" rel="noreferrer">Apple Music</a>
+          <a href="mailto:silverstreakmedia@gmail.com">Email</a>
+        </div>
+
+        <div class="footer-note">© <span id="year"></span> Neal Coxworth</div>
+      </div>
+      <div class="music-flow" aria-hidden="true">
+        <div class="music-flow__track">
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+  </body>
+</html>

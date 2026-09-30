@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore Neal Coxworth’s music catalog, featured releases, albums, and immersive tracks."
+    />
+    <title>Neal Coxworth</title>
+    <link rel="icon" type="image/svg+xml" href="assets/neal-coxworth-logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body data-page="music">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Shared navigation markup is duplicated across pages; keep its links aligned. -->
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="index.html" aria-label="Neal Coxworth home page">
+          <img class="brand-mark" src="assets/neal-coxworth-logo.svg" alt="" />
+          <span>Neal Coxworth</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+            <span aria-hidden="true"></span>
+          </button>
+
+          <div id="primary-nav" class="nav-menu">
+            <a class="nav-link" href="index.html" data-page="home">Home</a>
+            <a class="nav-link" href="about.html" data-page="about">About</a>
+            <a class="nav-link" href="music.html" data-page="music">Music</a>
+            <a class="nav-link" href="contact.html" data-page="contact">Contact</a>
+          </div>
+        </nav>
+      </div>
+      <div class="music-flow" aria-hidden="true">
+        <div class="music-flow__track">
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="section page-hero">
+        <div class="container page-hero-copy music-page-heading">
+          <img src="assets/5899740655053901883%20(1).jpg" alt="Neal Coxworth" />
+          <h1>Neal Coxworth Music</h1>
+        </div>
+      </section>
+
+      <!-- js/music.js renders the featured release into this mount point. -->
+      <section class="section">
+        <div class="container">
+          <div id="featured-track" class="featured-track" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Library</p>
+              <h2>Music archive</h2>
+            </div>
+          </div>
+
+          <!-- The same catalog script renders the remaining releases here. -->
+          <div id="music-library" class="music-library" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared footer markup is duplicated across pages; keep social links aligned. -->
+    <footer class="site-footer">
+      <div class="container">
+        <div>
+          <a class="brand" href="index.html" aria-label="Neal Coxworth home page">
+            <img class="brand-mark" src="assets/neal-coxworth-logo.svg" alt="" />
+            <span>Neal Coxworth</span>
+          </a>
+        </div>
+
+        <div class="footer-links" aria-label="Social links">
+          <a href="https://soundcloud.com/anthony-neal-541671036" target="_blank" rel="noreferrer">Soundcloud</a>
+          <a href="https://www.youtube.com/@NealCoxworthmusic" target="_blank" rel="noreferrer">Youtube</a>
+          <a href="https://www.facebook.com/nealcoxworthmusic/#" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="https://www.instagram.com/neal_coxworth/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://open.spotify.com/artist/61lR58BBUwx0pgY3PwmAyM" target="_blank" rel="noreferrer">Spotify</a>
+          <a href="https://music.apple.com/us/album/sons-and-daughters-single/1853195804" target="_blank" rel="noreferrer">Apple Music</a>
+          <a href="mailto:silverstreakmedia@gmail.com">Email</a>
+        </div>
+
+        <div class="footer-note">© <span id="year"></span> Neal Coxworth</div>
+      </div>
+      <div class="music-flow" aria-hidden="true">
+        <div class="music-flow__track">
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+          <div class="music-flow__set"><span>♪</span><span>♫</span><span>♬</span><span>♩</span><span>♫</span><span>♪</span><span>♩</span><span>♬</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/music.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
