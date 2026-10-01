@@ -1240,6 +1240,16 @@ body[data-page="about"] main {
   }
 }
 
+@media (min-width: 800px) {
+  .home-hero {
+    min-height: 42rem;
+  }
+
+  .home-hero-content {
+    bottom: 0;
+  }
+}
+
 @media (max-width: 799px) {
   .home-hero {
     height: 64vh;

@@ -82,16 +82,12 @@
           </aside>
 
           <div class="form-panel">
-            <!-- FormSubmit handles delivery; update the action when changing the destination inbox. -->
-            <form class="contact-form" action="https://formsubmit.co/silverstreakmedia@gmail.com" method="POST" aria-label="Contact Neal Coxworth">
-              <input type="hidden" name="_subject" value="New booking inquiry from Neal Coxworth website" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_next" value="https://finalyear169.github.io/Nealcox/thank-you.html" />
-
+            <form class="contact-form" id="contact-form" action="https://formsubmit.co/silverstreakmedia@gmail.com" method="POST" aria-label="Contact Neal Coxworth">
+              <input type="hidden" name="_subject" value="New inquiry from Neal Coxworth's website" />
+              <input type="hidden" name="_next" value="https://nealcoxworthmusic.com/thank-you.html" />
               <div class="field">
                 <label for="name">Name</label>
-                <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+                <input id="name" name="from_name" type="text" autocomplete="name" placeholder="Your name" required />
               </div>
 
               <div class="field">
@@ -130,7 +126,6 @@
               </div>
 
               <button class="button button-primary" type="submit">Send inquiry</button>
-              <p class="form-status" aria-live="polite"></p>
             </form>
           </div>
         </div>
