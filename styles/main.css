@@ -1258,32 +1258,68 @@ body[data-page="about"] main {
 
   .home-hero-gallery {
     inset: 1rem 0 6.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-inline: max(1rem, calc((100% - clamp(13rem, 68vw, 18rem)) / 2));
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-hero-gallery::-webkit-scrollbar {
+    display: none;
   }
 
   .home-hero-card {
-    width: clamp(7.5rem, 25vw, 11rem);
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: 0 0 clamp(13rem, 68vw, 18rem);
+    width: clamp(13rem, 68vw, 18rem);
     padding: 3px;
     border-radius: 9px;
+    opacity: 1;
+    transform: scale(0.84);
+    animation: none;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition:
+      filter 220ms ease,
+      transform 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .home-hero-card.is-centered {
+    z-index: 30;
+    filter: brightness(1.12);
+    transform: scale(1);
+    box-shadow: 0 26px 64px rgba(0, 0, 0, 0.58), 0 4px 14px rgba(0, 0, 0, 0.4);
   }
 
   .home-hero-card--livin-law {
-    --fan-x: -33%;
+    --fan-x: 0px;
   }
 
   .home-hero-card--subway {
-    --fan-x: -22%;
+    --fan-x: 0px;
   }
 
   .home-hero-card--long-road {
-    --fan-x: 22%;
+    --fan-x: 0px;
   }
 
   .home-hero-card--isis {
-    --fan-x: 27%;
+    --fan-x: 0px;
   }
 
   .home-hero-card--nc {
-    width: clamp(12rem, 46vw, 16rem);
+    flex-basis: clamp(13rem, 68vw, 18rem);
+    width: clamp(13rem, 68vw, 18rem);
     padding: 4px;
     border-radius: 11px;
   }
@@ -1293,11 +1329,28 @@ body[data-page="about"] main {
   }
 
   .home-hero-card--beige {
-    --fan-x: 33%;
+    --fan-x: 0px;
   }
 
   .home-hero-card--laughing {
-    --fan-x: -27%;
+    --fan-x: 0px;
+  }
+
+  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card {
+    filter: brightness(var(--fan-brightness, 1));
+  }
+
+  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card:hover {
+    z-index: auto;
+    scale: 1;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.48), 0 2px 8px rgba(0, 0, 0, 0.36);
+  }
+
+  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card.is-centered {
+    z-index: 30;
+    filter: brightness(1.12);
+    scale: 1;
+    box-shadow: 0 26px 64px rgba(0, 0, 0, 0.58), 0 4px 14px rgba(0, 0, 0, 0.4);
   }
 }
 

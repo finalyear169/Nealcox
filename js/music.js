@@ -1,11 +1,20 @@
 // This catalog is the single source of truth for the featured release and archive.
 const musicLibrary = [
   {
-    title: 'Early Morning Rain',
+    title: 'Cigarette Daydream',
     artist: 'Neal Coxworth',
     year: '2026',
     releaseType: 'Cover',
     featured: true,
+    artwork: 'https://i1.sndcdn.com/artworks-eIdEvxGMZvq6E0gK-LUaEcg-t500x500.jpg',
+    soundcloud: 'https://soundcloud.com/anthony-neal-541671036/cigarette-daydream'
+  },
+  {
+    title: 'Early Morning Rain',
+    artist: 'Neal Coxworth',
+    year: '2026',
+    releaseType: 'Cover',
+    featured: false,
     artwork: 'https://i1.sndcdn.com/artworks-sYBXJLgrb3xSTJyC-bqgxOQ-t500x500.jpg',
     soundcloud: 'https://soundcloud.com/anthony-neal-541671036/early-morning-rain-1'
   },

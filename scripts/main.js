@@ -36,6 +36,54 @@ document.addEventListener('DOMContentLoaded', () => {
     yearTarget.textContent = new Date().getFullYear();
   }
 
+  const homeHeroGallery = document.querySelector('.home-hero-gallery');
+  if (homeHeroGallery) {
+    const homeHeroCards = Array.from(homeHeroGallery.querySelectorAll('.home-hero-card'));
+    const mobileHero = window.matchMedia('(max-width: 799px)');
+    let centerUpdateFrame = 0;
+
+    const updateCenteredCard = () => {
+      centerUpdateFrame = 0;
+      if (!homeHeroCards.length) return;
+
+      const galleryCenter = homeHeroGallery.getBoundingClientRect().left + homeHeroGallery.clientWidth / 2;
+      const centeredCard = homeHeroCards
+        .map((card) => ({
+          card,
+          center: card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2
+        }))
+        .reduce((closest, current) =>
+          Math.abs(current.center - galleryCenter) < Math.abs(closest.center - galleryCenter) ? current : closest
+        ).card;
+
+      homeHeroCards.forEach((card) => {
+        card.classList.toggle('is-centered', card === centeredCard);
+      });
+    };
+
+    const scheduleCenterUpdate = () => {
+      if (!centerUpdateFrame) {
+        centerUpdateFrame = window.requestAnimationFrame(updateCenteredCard);
+      }
+    };
+
+    const centerInitialArtwork = () => {
+      if (!mobileHero.matches || !homeHeroCards.length) {
+        homeHeroCards.forEach((card) => card.classList.remove('is-centered'));
+        return;
+      }
+
+      const initialArtwork = homeHeroGallery.querySelector('.home-hero-card--nc') || homeHeroCards[0];
+      homeHeroGallery.scrollLeft =
+        initialArtwork.offsetLeft + initialArtwork.offsetWidth / 2 - homeHeroGallery.clientWidth / 2;
+      updateCenteredCard();
+    };
+
+    homeHeroGallery.addEventListener('scroll', scheduleCenterUpdate, { passive: true });
+    mobileHero.addEventListener('change', centerInitialArtwork);
+    window.requestAnimationFrame(centerInitialArtwork);
+  }
+
   // Use the native date picker when available, with a focus/click fallback.
   document.querySelectorAll('.date-picker-button').forEach((button) => {
     button.addEventListener('click', () => {
