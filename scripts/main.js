@@ -58,19 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateMobileFanLayout = () => {
       if (!mobileHero.matches || !homeHeroCards.length) return;
 
-      const activeCardOffset = Number.parseFloat(getComputedStyle(homeHeroCards[activeCardIndex]).getPropertyValue('--fan-x')) || 0;
-
       homeHeroCards.forEach((card, index) => {
-        const cardOffset = Number.parseFloat(getComputedStyle(card).getPropertyValue('--fan-x')) || 0;
         const isActive = index === activeCardIndex;
 
         card.classList.toggle('is-centered', isActive);
-        card.style.setProperty('--mobile-fan-x', `${cardOffset - activeCardOffset}%`);
-        card.style.setProperty('--mobile-fan-rotation', isActive ? '0deg' : 'var(--fan-rotation)');
-        card.style.setProperty('--mobile-fan-scale', isActive ? '1' : 'var(--fan-scale)');
-        card.style.removeProperty('--mobile-fan-brightness');
         card.style.zIndex = isActive ? '30' : '';
-        if (isActive) card.style.setProperty('--mobile-fan-brightness', '1.12');
+
+        ['--mobile-fan-x', '--mobile-fan-y', '--mobile-fan-rotation', '--mobile-fan-scale', '--mobile-fan-brightness'].forEach((property) => {
+          card.style.removeProperty(property);
+        });
+
+        if (isActive) {
+          card.style.setProperty('--mobile-fan-x', '0%');
+          card.style.setProperty('--mobile-fan-rotation', '0deg');
+          card.style.setProperty('--mobile-fan-scale', '1');
+          card.style.setProperty('--mobile-fan-brightness', '1.12');
+        }
       });
     };
 
@@ -81,39 +84,52 @@ document.addEventListener('DOMContentLoaded', () => {
       updateMobileFanLayout();
     };
 
+    const startSwipe = (x, y, pointerId) => {
+      swipeStart = { x, y, pointerId, advanced: false };
+    };
+
+    const advanceSwipe = (x, y) => {
+      if (!swipeStart || swipeStart.advanced) return;
+
+      const deltaX = x - swipeStart.x;
+      const deltaY = y - swipeStart.y;
+      if (Math.abs(deltaX) <= 40 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
+
+      swipeStart.advanced = true;
+      moveActiveCard(deltaX < 0 ? 1 : -1);
+    };
+
     const handlePointerDown = (event) => {
       if (!mobileHero.matches || event.pointerType === 'touch') return;
-      swipeStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+      startSwipe(event.clientX, event.clientY, event.pointerId);
       homeHeroGallery.setPointerCapture(event.pointerId);
+    };
+
+    const handlePointerMove = (event) => {
+      if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
+      advanceSwipe(event.clientX, event.clientY);
     };
 
     const handlePointerUp = (event) => {
       if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
-      const deltaX = event.clientX - swipeStart.x;
-      const deltaY = event.clientY - swipeStart.y;
       swipeStart = null;
-
-      if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
-        moveActiveCard(deltaX < 0 ? 1 : -1);
-      }
     };
 
     const handleTouchStart = (event) => {
       if (!mobileHero.matches || !event.changedTouches.length) return;
       const touch = event.changedTouches[0];
-      swipeStart = { x: touch.clientX, y: touch.clientY, pointerId: null };
+      startSwipe(touch.clientX, touch.clientY, null);
+    };
+
+    const handleTouchMove = (event) => {
+      if (!swipeStart || swipeStart.pointerId !== null || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      advanceSwipe(touch.clientX, touch.clientY);
     };
 
     const handleTouchEnd = (event) => {
       if (!swipeStart || swipeStart.pointerId !== null || !event.changedTouches.length) return;
-      const touch = event.changedTouches[0];
-      const deltaX = touch.clientX - swipeStart.x;
-      const deltaY = touch.clientY - swipeStart.y;
       swipeStart = null;
-
-      if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
-        moveActiveCard(deltaX < 0 ? 1 : -1);
-      }
     };
 
     const handleKeyDown = (event) => {
@@ -138,11 +154,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     homeHeroGallery.addEventListener('pointerdown', handlePointerDown);
+    homeHeroGallery.addEventListener('pointermove', handlePointerMove);
     homeHeroGallery.addEventListener('pointerup', handlePointerUp);
     homeHeroGallery.addEventListener('pointercancel', () => {
       if (swipeStart?.pointerId !== null) swipeStart = null;
     });
     homeHeroGallery.addEventListener('touchstart', handleTouchStart, { passive: true });
+    homeHeroGallery.addEventListener('touchmove', handleTouchMove, { passive: true });
     homeHeroGallery.addEventListener('touchend', handleTouchEnd, { passive: true });
     homeHeroGallery.addEventListener('touchcancel', () => {
       if (swipeStart?.pointerId === null) swipeStart = null;

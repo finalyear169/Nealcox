@@ -1286,17 +1286,26 @@ body[data-page="about"] main {
     transform: translate(-50%, -50%) rotate(var(--mobile-fan-rotation, var(--fan-rotation))) scale(var(--mobile-fan-scale, var(--fan-scale)));
     animation: none;
     transition:
-      left 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      top 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      transform 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      filter 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      box-shadow 260ms cubic-bezier(0.22, 0.8, 0.24, 1);
+      width 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      padding 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      left 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      top 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      transform 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      filter 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      box-shadow 700ms cubic-bezier(0.22, 0.8, 0.24, 1);
   }
 
   .home-hero-card.is-centered {
     z-index: 30 !important;
+    width: clamp(12rem, 46vw, 16rem);
+    padding: 4px;
+    border-radius: 11px;
     filter: brightness(var(--mobile-fan-brightness, 1.12));
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.58), 0 4px 14px rgba(0, 0, 0, 0.4);
+  }
+
+  .home-hero-card.is-centered img {
+    border-radius: 6px;
   }
 
   .home-hero-card--livin-law {
@@ -1316,13 +1325,7 @@ body[data-page="about"] main {
   }
 
   .home-hero-card--nc {
-    width: clamp(12rem, 46vw, 16rem);
-    padding: 4px;
-    border-radius: 11px;
-  }
-
-  .home-hero-card--nc img {
-    border-radius: 6px;
+    width: clamp(7.5rem, 25vw, 11rem);
   }
 
   .home-hero-card--beige {
@@ -1334,7 +1337,7 @@ body[data-page="about"] main {
   }
 
   .home-hero-card--cigarette-daydream {
-    --fan-x: 42%;
+    --fan-x: 30%;
   }
 
 }
