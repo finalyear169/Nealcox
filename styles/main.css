@@ -404,15 +404,26 @@ body[data-page="about"] main {
   z-index: 4;
 }
 
-.home-hero-gallery:has(.home-hero-card:hover) .home-hero-card {
-  filter: brightness(calc(var(--fan-brightness, 1) * 0.45));
+.home-hero-card--cigarette-daydream {
+  --fan-x: -48%;
+  --fan-scale: 0.59;
+  --fan-rotation: -19deg;
+  --fan-order: 7;
+  --fan-brightness: 0.28;
+  z-index: 2;
 }
 
-.home-hero-gallery:has(.home-hero-card:hover) .home-hero-card:hover {
-  z-index: 40;
-  filter: brightness(1.12);
-  scale: 1.06;
-  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.62), 0 4px 16px rgba(0, 0, 0, 0.42);
+@media (hover: hover) and (pointer: fine) {
+  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card {
+    filter: brightness(calc(var(--fan-brightness, 1) * 0.45));
+  }
+
+  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card:hover {
+    z-index: 40;
+    filter: brightness(1.12);
+    scale: 1.06;
+    box-shadow: 0 30px 72px rgba(0, 0, 0, 0.62), 0 4px 16px rgba(0, 0, 0, 0.42);
+  }
 }
 
 @keyframes home-fan-arrive {
@@ -1258,68 +1269,54 @@ body[data-page="about"] main {
 
   .home-hero-gallery {
     inset: 1rem 0 6.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-inline: max(1rem, calc((100% - clamp(13rem, 68vw, 18rem)) / 2));
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    touch-action: pan-x;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .home-hero-gallery::-webkit-scrollbar {
-    display: none;
+    overflow: visible;
+    pointer-events: auto;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .home-hero-card {
-    position: relative;
-    top: auto;
-    left: auto;
-    flex: 0 0 clamp(13rem, 68vw, 18rem);
-    width: clamp(13rem, 68vw, 18rem);
+    top: calc(50% + var(--mobile-fan-y, var(--fan-y)));
+    left: calc(50% + var(--mobile-fan-x, var(--fan-x)));
+    width: clamp(7.5rem, 25vw, 11rem);
     padding: 3px;
     border-radius: 9px;
     opacity: 1;
-    transform: scale(0.84);
+    transform: translate(-50%, -50%) rotate(var(--mobile-fan-rotation, var(--fan-rotation))) scale(var(--mobile-fan-scale, var(--fan-scale)));
     animation: none;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
     transition:
-      filter 220ms ease,
-      transform 220ms ease,
-      box-shadow 220ms ease;
+      left 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      top 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      transform 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      filter 260ms cubic-bezier(0.22, 0.8, 0.24, 1),
+      box-shadow 260ms cubic-bezier(0.22, 0.8, 0.24, 1);
   }
 
   .home-hero-card.is-centered {
-    z-index: 30;
-    filter: brightness(1.12);
-    transform: scale(1);
+    z-index: 30 !important;
+    filter: brightness(var(--mobile-fan-brightness, 1.12));
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.58), 0 4px 14px rgba(0, 0, 0, 0.4);
   }
 
   .home-hero-card--livin-law {
-    --fan-x: 0px;
+    --fan-x: -33%;
   }
 
   .home-hero-card--subway {
-    --fan-x: 0px;
+    --fan-x: -22%;
   }
 
   .home-hero-card--long-road {
-    --fan-x: 0px;
+    --fan-x: 22%;
   }
 
   .home-hero-card--isis {
-    --fan-x: 0px;
+    --fan-x: 27%;
   }
 
   .home-hero-card--nc {
-    flex-basis: clamp(13rem, 68vw, 18rem);
-    width: clamp(13rem, 68vw, 18rem);
+    width: clamp(12rem, 46vw, 16rem);
     padding: 4px;
     border-radius: 11px;
   }
@@ -1329,29 +1326,17 @@ body[data-page="about"] main {
   }
 
   .home-hero-card--beige {
-    --fan-x: 0px;
+    --fan-x: 33%;
   }
 
   .home-hero-card--laughing {
-    --fan-x: 0px;
+    --fan-x: -27%;
   }
 
-  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card {
-    filter: brightness(var(--fan-brightness, 1));
+  .home-hero-card--cigarette-daydream {
+    --fan-x: 42%;
   }
 
-  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card:hover {
-    z-index: auto;
-    scale: 1;
-    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.48), 0 2px 8px rgba(0, 0, 0, 0.36);
-  }
-
-  .home-hero-gallery:has(.home-hero-card:hover) .home-hero-card.is-centered {
-    z-index: 30;
-    filter: brightness(1.12);
-    scale: 1;
-    box-shadow: 0 26px 64px rgba(0, 0, 0, 0.58), 0 4px 14px rgba(0, 0, 0, 0.4);
-  }
 }
 
 .visual-card {

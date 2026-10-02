@@ -40,48 +40,116 @@ document.addEventListener('DOMContentLoaded', () => {
   if (homeHeroGallery) {
     const homeHeroCards = Array.from(homeHeroGallery.querySelectorAll('.home-hero-card'));
     const mobileHero = window.matchMedia('(max-width: 799px)');
-    let centerUpdateFrame = 0;
+    let activeCardIndex = homeHeroCards.findIndex((card) => card.classList.contains('home-hero-card--nc'));
+    let swipeStart = null;
 
-    const updateCenteredCard = () => {
-      centerUpdateFrame = 0;
-      if (!homeHeroCards.length) return;
+    if (activeCardIndex < 0) activeCardIndex = 0;
 
-      const galleryCenter = homeHeroGallery.getBoundingClientRect().left + homeHeroGallery.clientWidth / 2;
-      const centeredCard = homeHeroCards
-        .map((card) => ({
-          card,
-          center: card.getBoundingClientRect().left + card.getBoundingClientRect().width / 2
-        }))
-        .reduce((closest, current) =>
-          Math.abs(current.center - galleryCenter) < Math.abs(closest.center - galleryCenter) ? current : closest
-        ).card;
-
+    const clearMobileFanLayout = () => {
       homeHeroCards.forEach((card) => {
-        card.classList.toggle('is-centered', card === centeredCard);
+        card.classList.remove('is-centered');
+        ['--mobile-fan-x', '--mobile-fan-y', '--mobile-fan-rotation', '--mobile-fan-scale', '--mobile-fan-brightness'].forEach((property) => {
+          card.style.removeProperty(property);
+        });
+        card.style.removeProperty('z-index');
       });
     };
 
-    const scheduleCenterUpdate = () => {
-      if (!centerUpdateFrame) {
-        centerUpdateFrame = window.requestAnimationFrame(updateCenteredCard);
+    const updateMobileFanLayout = () => {
+      if (!mobileHero.matches || !homeHeroCards.length) return;
+
+      const activeCardOffset = Number.parseFloat(getComputedStyle(homeHeroCards[activeCardIndex]).getPropertyValue('--fan-x')) || 0;
+
+      homeHeroCards.forEach((card, index) => {
+        const cardOffset = Number.parseFloat(getComputedStyle(card).getPropertyValue('--fan-x')) || 0;
+        const isActive = index === activeCardIndex;
+
+        card.classList.toggle('is-centered', isActive);
+        card.style.setProperty('--mobile-fan-x', `${cardOffset - activeCardOffset}%`);
+        card.style.setProperty('--mobile-fan-rotation', isActive ? '0deg' : 'var(--fan-rotation)');
+        card.style.setProperty('--mobile-fan-scale', isActive ? '1' : 'var(--fan-scale)');
+        card.style.removeProperty('--mobile-fan-brightness');
+        card.style.zIndex = isActive ? '30' : '';
+        if (isActive) card.style.setProperty('--mobile-fan-brightness', '1.12');
+      });
+    };
+
+    const moveActiveCard = (direction) => {
+      const nextIndex = Math.max(0, Math.min(homeHeroCards.length - 1, activeCardIndex + direction));
+      if (nextIndex === activeCardIndex) return;
+      activeCardIndex = nextIndex;
+      updateMobileFanLayout();
+    };
+
+    const handlePointerDown = (event) => {
+      if (!mobileHero.matches || event.pointerType === 'touch') return;
+      swipeStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+      homeHeroGallery.setPointerCapture(event.pointerId);
+    };
+
+    const handlePointerUp = (event) => {
+      if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
+      const deltaX = event.clientX - swipeStart.x;
+      const deltaY = event.clientY - swipeStart.y;
+      swipeStart = null;
+
+      if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+        moveActiveCard(deltaX < 0 ? 1 : -1);
       }
     };
 
-    const centerInitialArtwork = () => {
-      if (!mobileHero.matches || !homeHeroCards.length) {
-        homeHeroCards.forEach((card) => card.classList.remove('is-centered'));
-        return;
-      }
-
-      const initialArtwork = homeHeroGallery.querySelector('.home-hero-card--nc') || homeHeroCards[0];
-      homeHeroGallery.scrollLeft =
-        initialArtwork.offsetLeft + initialArtwork.offsetWidth / 2 - homeHeroGallery.clientWidth / 2;
-      updateCenteredCard();
+    const handleTouchStart = (event) => {
+      if (!mobileHero.matches || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      swipeStart = { x: touch.clientX, y: touch.clientY, pointerId: null };
     };
 
-    homeHeroGallery.addEventListener('scroll', scheduleCenterUpdate, { passive: true });
-    mobileHero.addEventListener('change', centerInitialArtwork);
-    window.requestAnimationFrame(centerInitialArtwork);
+    const handleTouchEnd = (event) => {
+      if (!swipeStart || swipeStart.pointerId !== null || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - swipeStart.x;
+      const deltaY = touch.clientY - swipeStart.y;
+      swipeStart = null;
+
+      if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+        moveActiveCard(deltaX < 0 ? 1 : -1);
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (!mobileHero.matches) return;
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        moveActiveCard(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        moveActiveCard(1);
+      }
+    };
+
+    const setInitialMobileLayout = () => {
+      swipeStart = null;
+      if (mobileHero.matches) {
+        activeCardIndex = Math.max(0, homeHeroCards.findIndex((card) => card.classList.contains('home-hero-card--nc')));
+        updateMobileFanLayout();
+      } else {
+        clearMobileFanLayout();
+      }
+    };
+
+    homeHeroGallery.addEventListener('pointerdown', handlePointerDown);
+    homeHeroGallery.addEventListener('pointerup', handlePointerUp);
+    homeHeroGallery.addEventListener('pointercancel', () => {
+      if (swipeStart?.pointerId !== null) swipeStart = null;
+    });
+    homeHeroGallery.addEventListener('touchstart', handleTouchStart, { passive: true });
+    homeHeroGallery.addEventListener('touchend', handleTouchEnd, { passive: true });
+    homeHeroGallery.addEventListener('touchcancel', () => {
+      if (swipeStart?.pointerId === null) swipeStart = null;
+    }, { passive: true });
+    homeHeroGallery.addEventListener('keydown', handleKeyDown);
+    mobileHero.addEventListener('change', setInitialMobileLayout);
+    setInitialMobileLayout();
   }
 
   // Use the native date picker when available, with a focus/click fallback.
