@@ -298,6 +298,10 @@ body[data-page="about"] main {
   pointer-events: none;
 }
 
+.home-hero-scroll-track {
+  display: contents;
+}
+
 .home-hero-card {
   position: absolute;
   top: calc(50% + var(--fan-y));
@@ -1269,77 +1273,62 @@ body[data-page="about"] main {
 
   .home-hero-gallery {
     inset: 1rem 0 6.5rem;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
     pointer-events: auto;
-    touch-action: pan-y;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16vw;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
     user-select: none;
     -webkit-user-select: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-hero-scroll-track {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 4vw, 1.5rem);
+    width: max-content;
+    min-width: 100%;
+    height: 100%;
+    padding-inline: 16vw;
+    box-sizing: border-box;
+  }
+
+  .home-hero-gallery::-webkit-scrollbar {
+    display: none;
   }
 
   .home-hero-card {
-    top: calc(50% + var(--mobile-fan-y, var(--fan-y)));
-    left: calc(50% + var(--mobile-fan-x, var(--fan-x)));
-    width: clamp(7.5rem, 25vw, 11rem);
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: 0 0 68vw;
+    width: 68vw;
+    max-width: 16rem;
     padding: 3px;
     border-radius: 9px;
     opacity: 1;
-    transform: translate(-50%, -50%) rotate(var(--mobile-fan-rotation, var(--fan-rotation))) scale(var(--mobile-fan-scale, var(--fan-scale)));
+    filter: brightness(calc(0.72 + var(--focus-progress, 0) * 0.4));
+    transform: translateY(calc(var(--focus-progress, 0) * -0.7rem)) rotate(0deg) scale(calc(0.82 + var(--focus-progress, 0) * 0.22));
     animation: none;
-    transition:
-      width 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      padding 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      left 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      top 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      transform 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      filter 700ms cubic-bezier(0.22, 0.8, 0.24, 1),
-      box-shadow 700ms cubic-bezier(0.22, 0.8, 0.24, 1);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: box-shadow 420ms cubic-bezier(0.22, 0.8, 0.24, 1);
   }
 
   .home-hero-card.is-centered {
     z-index: 30 !important;
-    width: clamp(12rem, 46vw, 16rem);
-    padding: 4px;
-    border-radius: 11px;
-    filter: brightness(var(--mobile-fan-brightness, 1.12));
+    filter: brightness(1.12);
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.58), 0 4px 14px rgba(0, 0, 0, 0.4);
   }
 
-  .home-hero-card.is-centered img {
-    border-radius: 6px;
-  }
-
-  .home-hero-card--livin-law {
-    --fan-x: -33%;
-  }
-
-  .home-hero-card--subway {
-    --fan-x: -22%;
-  }
-
-  .home-hero-card--long-road {
-    --fan-x: 22%;
-  }
-
-  .home-hero-card--isis {
-    --fan-x: 27%;
-  }
-
   .home-hero-card--nc {
-    width: clamp(7.5rem, 25vw, 11rem);
+    flex-basis: 68vw;
+    width: 68vw;
   }
-
-  .home-hero-card--beige {
-    --fan-x: 33%;
-  }
-
-  .home-hero-card--laughing {
-    --fan-x: -27%;
-  }
-
-  .home-hero-card--cigarette-daydream {
-    --fan-x: 30%;
-  }
-
 }
 
 .visual-card {
@@ -1580,6 +1569,10 @@ body[data-page="about"] main {
 /* Keep every animation and smooth scroll disabled for reduced-motion users. */
 @media (prefers-reduced-motion: reduce) {
   html {
+    scroll-behavior: auto;
+  }
+
+  .home-hero-scroll-track {
     scroll-behavior: auto;
   }
 

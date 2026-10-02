@@ -40,134 +40,62 @@ document.addEventListener('DOMContentLoaded', () => {
   if (homeHeroGallery) {
     const homeHeroCards = Array.from(homeHeroGallery.querySelectorAll('.home-hero-card'));
     const mobileHero = window.matchMedia('(max-width: 799px)');
-    let activeCardIndex = homeHeroCards.findIndex((card) => card.classList.contains('home-hero-card--nc'));
-    let swipeStart = null;
+    const scrollTrack = document.createElement('div');
+    scrollTrack.className = 'home-hero-scroll-track';
+    homeHeroCards.forEach((card) => scrollTrack.append(card));
+    homeHeroGallery.append(scrollTrack);
 
-    if (activeCardIndex < 0) activeCardIndex = 0;
-
-    const clearMobileFanLayout = () => {
-      homeHeroCards.forEach((card) => {
-        card.classList.remove('is-centered');
-        ['--mobile-fan-x', '--mobile-fan-y', '--mobile-fan-rotation', '--mobile-fan-scale', '--mobile-fan-brightness'].forEach((property) => {
-          card.style.removeProperty(property);
-        });
-        card.style.removeProperty('z-index');
-      });
-    };
-
-    const updateMobileFanLayout = () => {
+    const updateCenteredCard = () => {
       if (!mobileHero.matches || !homeHeroCards.length) return;
 
-      homeHeroCards.forEach((card, index) => {
-        const isActive = index === activeCardIndex;
+      const galleryCenter = homeHeroGallery.getBoundingClientRect().left + homeHeroGallery.clientWidth / 2;
+      const focusRange = homeHeroGallery.clientWidth * 0.9;
+      const centeredCard = homeHeroCards.reduce((closest, card) => {
+        const cardRect = card.getBoundingClientRect();
+        const closestRect = closest.getBoundingClientRect();
+        return Math.abs(cardRect.left + cardRect.width / 2 - galleryCenter) <
+          Math.abs(closestRect.left + closestRect.width / 2 - galleryCenter) ? card : closest;
+      });
 
-        card.classList.toggle('is-centered', isActive);
-        card.style.zIndex = isActive ? '30' : '';
-
-        ['--mobile-fan-x', '--mobile-fan-y', '--mobile-fan-rotation', '--mobile-fan-scale', '--mobile-fan-brightness'].forEach((property) => {
-          card.style.removeProperty(property);
-        });
-
-        if (isActive) {
-          card.style.setProperty('--mobile-fan-x', '0%');
-          card.style.setProperty('--mobile-fan-rotation', '0deg');
-          card.style.setProperty('--mobile-fan-scale', '1');
-          card.style.setProperty('--mobile-fan-brightness', '1.12');
-        }
+      homeHeroCards.forEach((card) => {
+        const cardRect = card.getBoundingClientRect();
+        const distance = Math.abs(cardRect.left + cardRect.width / 2 - galleryCenter);
+        const focusProgress = Math.max(0, 1 - distance / focusRange);
+        card.style.setProperty('--focus-progress', focusProgress.toFixed(3));
+        card.classList.toggle('is-centered', card === centeredCard);
       });
     };
 
-    const moveActiveCard = (direction) => {
-      const nextIndex = Math.max(0, Math.min(homeHeroCards.length - 1, activeCardIndex + direction));
-      if (nextIndex === activeCardIndex) return;
-      activeCardIndex = nextIndex;
-      updateMobileFanLayout();
+    let centeredCardFrame = 0;
+    const scheduleCenteredCardUpdate = () => {
+      if (!mobileHero.matches || centeredCardFrame) return;
+      centeredCardFrame = window.requestAnimationFrame(() => {
+        centeredCardFrame = 0;
+        updateCenteredCard();
+      });
     };
 
-    const startSwipe = (x, y, pointerId) => {
-      swipeStart = { x, y, pointerId, advanced: false };
-    };
-
-    const advanceSwipe = (x, y) => {
-      if (!swipeStart || swipeStart.advanced) return;
-
-      const deltaX = x - swipeStart.x;
-      const deltaY = y - swipeStart.y;
-      if (Math.abs(deltaX) <= 40 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
-
-      swipeStart.advanced = true;
-      moveActiveCard(deltaX < 0 ? 1 : -1);
-    };
-
-    const handlePointerDown = (event) => {
-      if (!mobileHero.matches || event.pointerType === 'touch') return;
-      startSwipe(event.clientX, event.clientY, event.pointerId);
-      homeHeroGallery.setPointerCapture(event.pointerId);
-    };
-
-    const handlePointerMove = (event) => {
-      if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
-      advanceSwipe(event.clientX, event.clientY);
-    };
-
-    const handlePointerUp = (event) => {
-      if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
-      swipeStart = null;
-    };
-
-    const handleTouchStart = (event) => {
-      if (!mobileHero.matches || !event.changedTouches.length) return;
-      const touch = event.changedTouches[0];
-      startSwipe(touch.clientX, touch.clientY, null);
-    };
-
-    const handleTouchMove = (event) => {
-      if (!swipeStart || swipeStart.pointerId !== null || !event.changedTouches.length) return;
-      const touch = event.changedTouches[0];
-      advanceSwipe(touch.clientX, touch.clientY);
-    };
-
-    const handleTouchEnd = (event) => {
-      if (!swipeStart || swipeStart.pointerId !== null || !event.changedTouches.length) return;
-      swipeStart = null;
-    };
-
-    const handleKeyDown = (event) => {
-      if (!mobileHero.matches) return;
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        moveActiveCard(-1);
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        moveActiveCard(1);
+    const centerInitialArtwork = () => {
+      if (!mobileHero.matches || !homeHeroCards.length) {
+        homeHeroCards.forEach((card) => {
+          card.classList.remove('is-centered');
+          card.style.removeProperty('--focus-progress');
+        });
+        return;
       }
+
+      const initialArtwork = homeHeroGallery.querySelector('.home-hero-card--nc') || homeHeroCards[0];
+      const galleryRect = homeHeroGallery.getBoundingClientRect();
+      const artworkRect = initialArtwork.getBoundingClientRect();
+      homeHeroGallery.scrollLeft +=
+        artworkRect.left + artworkRect.width / 2 - (galleryRect.left + homeHeroGallery.clientWidth / 2);
+      updateCenteredCard();
     };
 
-    const setInitialMobileLayout = () => {
-      swipeStart = null;
-      if (mobileHero.matches) {
-        activeCardIndex = Math.max(0, homeHeroCards.findIndex((card) => card.classList.contains('home-hero-card--nc')));
-        updateMobileFanLayout();
-      } else {
-        clearMobileFanLayout();
-      }
-    };
-
-    homeHeroGallery.addEventListener('pointerdown', handlePointerDown);
-    homeHeroGallery.addEventListener('pointermove', handlePointerMove);
-    homeHeroGallery.addEventListener('pointerup', handlePointerUp);
-    homeHeroGallery.addEventListener('pointercancel', () => {
-      if (swipeStart?.pointerId !== null) swipeStart = null;
-    });
-    homeHeroGallery.addEventListener('touchstart', handleTouchStart, { passive: true });
-    homeHeroGallery.addEventListener('touchmove', handleTouchMove, { passive: true });
-    homeHeroGallery.addEventListener('touchend', handleTouchEnd, { passive: true });
-    homeHeroGallery.addEventListener('touchcancel', () => {
-      if (swipeStart?.pointerId === null) swipeStart = null;
-    }, { passive: true });
-    homeHeroGallery.addEventListener('keydown', handleKeyDown);
-    mobileHero.addEventListener('change', setInitialMobileLayout);
-    setInitialMobileLayout();
+    homeHeroGallery.addEventListener('scroll', scheduleCenteredCardUpdate, { passive: true });
+    mobileHero.addEventListener('change', centerInitialArtwork);
+    window.addEventListener('resize', centerInitialArtwork);
+    window.requestAnimationFrame(centerInitialArtwork);
   }
 
   // Use the native date picker when available, with a focus/click fallback.
