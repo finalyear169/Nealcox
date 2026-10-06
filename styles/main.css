@@ -337,12 +337,12 @@ body[data-page="about"] main {
 }
 
 .home-hero-card--livin-law {
-  --fan-x: -40%;
-  --fan-scale: 0.72;
-  --fan-rotation: -13deg;
+  --fan-x: -52%;
+  --fan-scale: 0.68;
+  --fan-rotation: -18deg;
   --fan-order: 1;
-  --fan-brightness: 0.48;
-  z-index: 4;
+  --fan-brightness: 0.34;
+  z-index: 3;
 }
 
 .home-hero-card--subway {
@@ -403,18 +403,27 @@ body[data-page="about"] main {
   --fan-x: -28%;
   --fan-scale: 0.72;
   --fan-rotation: -13deg;
-  --fan-order: 3;
+  --fan-order: 7;
   --fan-brightness: 0.48;
   z-index: 4;
 }
 
 .home-hero-card--cigarette-daydream {
-  --fan-x: -48%;
+  --fan-x: -40%;
   --fan-scale: 0.59;
   --fan-rotation: -19deg;
-  --fan-order: 7;
+  --fan-order: 8;
   --fan-brightness: 0.28;
   z-index: 2;
+}
+
+.home-hero-card--post-war {
+  --fan-x: 52%;
+  --fan-scale: 0.68;
+  --fan-rotation: 18deg;
+  --fan-order: 9;
+  --fan-brightness: 0.34;
+  z-index: 3;
 }
 
 @media (hover: hover) and (pointer: fine) {
