@@ -1,11 +1,29 @@
 // This catalog is the single source of truth for the featured release and archive.
 const musicLibrary = [
   {
-    title: 'Stone Over Water',
+    title: 'Long Monday',
     artist: 'Neal Coxworth',
     year: '2026',
     releaseType: 'Cover',
     featured: true,
+    artwork: 'https://i1.sndcdn.com/artworks-TdhY62cvwnlmmzKS-uL5BVQ-t500x500.jpg',
+    soundcloud: 'https://soundcloud.com/anthony-neal-541671036/long-monday'
+  },
+  {
+    title: 'The Ugly Truth',
+    artist: 'Neal Coxworth',
+    year: '2026',
+    releaseType: 'Cover',
+    featured: false,
+    artwork: 'https://i1.sndcdn.com/artworks-JTulNpFg71gUXEsw-IYlURg-t500x500.jpg',
+    soundcloud: 'https://soundcloud.com/anthony-neal-541671036/the-ugly-truth'
+  },
+  {
+    title: 'Stone Over Water',
+    artist: 'Neal Coxworth',
+    year: '2026',
+    releaseType: 'Cover',
+    featured: false,
     artwork: 'https://i1.sndcdn.com/artworks-kwHzcPOoEqc5qgZz-cTUGCA-t500x500.jpg',
     soundcloud: 'https://soundcloud.com/anthony-neal-541671036/stone-over-water'
   },
