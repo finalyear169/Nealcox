@@ -1,11 +1,29 @@
 // This catalog is the single source of truth for the featured release and archive.
 const musicLibrary = [
   {
+    title: 'Just Breathe',
+    artist: 'Neal Coxworth',
+    year: '2026',
+    releaseType: 'Single',
+    featured: true,
+    artwork: 'https://i1.sndcdn.com/artworks-FK37Ww5PAPxaZYU1-pxsiSA-t500x500.jpg',
+    soundcloud: 'https://soundcloud.com/anthony-neal-541671036/just-breathe'
+  },
+  {
+    title: 'Everybody Wants to Be Like You',
+    artist: 'Neal Coxworth',
+    year: '2026',
+    releaseType: 'Single',
+    featured: false,
+    artwork: 'https://i1.sndcdn.com/artworks-yEcbd71CudTIczHe-aUqQ2Q-t500x500.jpg',
+    soundcloud: 'https://soundcloud.com/anthony-neal-541671036/everybody-wants-to-be-like-you'
+  },
+  {
     title: 'Long Monday',
     artist: 'Neal Coxworth',
     year: '2026',
     releaseType: 'Cover',
-    featured: true,
+    featured: false,
     artwork: 'https://i1.sndcdn.com/artworks-TdhY62cvwnlmmzKS-uL5BVQ-t500x500.jpg',
     soundcloud: 'https://soundcloud.com/anthony-neal-541671036/long-monday'
   },
@@ -119,8 +137,12 @@ const musicLibrary = [
   }
 ];
 
-// Order newest releases first, breaking ties alphabetically by title.
+// Order featured releases first, then newest releases, with alphabetical tie-breaks.
 const sortTracks = (trackA, trackB) => {
+  if (trackA.featured !== trackB.featured) {
+    return trackA.featured ? -1 : 1;
+  }
+
   const yearA = Number(trackA.year) || 0;
   const yearB = Number(trackB.year) || 0;
 
